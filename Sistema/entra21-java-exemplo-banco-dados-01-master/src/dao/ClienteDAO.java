@@ -52,23 +52,48 @@ public class ClienteDAO {
     public boolean apagar(int id) {
         String sql = "DELETE FROM clientes WHERE id = ?";
         Connection conexao = ConexaoFactory.obterConexao();
-        if(conexao != null){
-            try{
+        if (conexao != null) {
+            try {
                 PreparedStatement ps = conexao.prepareStatement(sql);
-                ps.setInt(1,id);
+                ps.setInt(1, id);
                 return ps.executeUpdate() == 1;
-            }catch (SQLException e ){
+            } catch (SQLException e) {
                 e.printStackTrace();
-            }finally{
+            } finally {
                 ConexaoFactory.fecharConexao();
             }
         }
         return false;
     }
 
+    public ClienteBean obterClientePeloId(int id) {
+        String sql = "SELECT id, nome, data_nascimento, cpf, ativo FROM cliente WHERE id = ?";
+        Connection conexao = ConexaoFactory.obterConexao();
+        if (conexao != null) {
+            try {
+                PreparedStatement ps = conexao.prepareStatement(sql);
+                ps.setInt(1, id);
+                ps.execute();
+                ResultSet resultSet = ps.getResultSet();
+                if (resultSet.next()) {
+                    ClienteBean cliente = new ClienteBean();
+                    cliente.setId(resultSet.getInt("id"));
+                    cliente.setNome(resultSet.getString("Nome"));
+                    cliente.setData(resultSet.getString("data_nascimento"));
+                    cliente.setCpf(resultSet.getString("cpf"));
+                    cliente.setAtivo(resultSet.getBoolean("ativo"));
+                }
+            } catch (SQLException e) {
+            } finally {
+                ConexaoFactory.fecharConexao();
+            }
+        }
+        return null;
+
+    }
 
     public List<ClienteBean> obterClientes() {
-           List<ClienteBean> clientes = new ArrayList<>();
+        List<ClienteBean> clientes = new ArrayList<>();
 
         Connection conexao = ConexaoFactory.obterConexao();
         if (conexao != null) {
@@ -90,7 +115,7 @@ public class ClienteDAO {
             } catch (SQLException e) {
                 e.printStackTrace();
 
-            }finally{
+            } finally {
                 ConexaoFactory.fecharConexao();
             }
         }

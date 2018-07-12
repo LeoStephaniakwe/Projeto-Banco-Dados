@@ -56,20 +56,21 @@ public class ClienteListaCadastro implements BaseGUInterface {
         popularTabela();
         jFrame.setVisible(true);
     }
-    private void popularTabela(){
+
+    private void popularTabela() {
         ClienteDAO clienteDAO = new ClienteDAO();
         List<ClienteBean> clientes = clienteDAO.obterClientes();
         /*for(int i = 0; i < clientes.size(); i++){
-            ClienteBean cliente = cliente.get(i);
-        }*/
-        for(ClienteBean cliente: clientes){
+         ClienteBean cliente = cliente.get(i);
+         }*/
+        for (ClienteBean cliente : clientes) {
             dtm.addRow(new Object[]{
                 cliente.getId(),
                 cliente.getNome(),
                 cliente.getCpf()
             });
         }
-        
+
     }
 
     public void instanciarComponentes() {
@@ -166,7 +167,14 @@ public class ClienteListaCadastro implements BaseGUInterface {
     }
 
     private void configurarJTable() {
-        dtm = new DefaultTableModel();
+        dtm = new DefaultTableModel() {
+
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false;
+            }
+
+        };
         dtm.addColumn("ID");
         dtm.addColumn("Nome");
         dtm.addColumn("CPF");
@@ -203,7 +211,7 @@ public class ClienteListaCadastro implements BaseGUInterface {
                 //data
                 //cpf
                 //ativo/inativo
-                
+
                 if (jTextFieldNome.getText().trim().isEmpty()) {
                     JOptionPane.showMessageDialog(null, "Nome deve ser preenchido");
                     jTextFieldNome.requestFocus();
@@ -227,20 +235,20 @@ public class ClienteListaCadastro implements BaseGUInterface {
                 }
                 ClienteBean cliente = new ClienteBean();
                 cliente.setNome(jTextFieldNome.getText());
-                cliente.setData ("1994-06-21");
+                cliente.setData("1994-06-21");
                 cliente.setCpf(cpf);
                 int id = new ClienteDAO().inserir(cliente);
                 cliente.setId(id);
                 jTextFieldNome.setText(String.valueOf(id));
-                
+
                 new ClienteDAO().inserir(cliente);
                 dtm.addRow(new Object[]{
-                cliente.getId(),
-                cliente.getNome(),
-                cliente.getCpf()});
-            
+                    cliente.getId(),
+                    cliente.getNome(),
+                    cliente.getCpf()});
+
                 limparCampos();
-                
+
             }
         });
     }
@@ -285,7 +293,7 @@ public class ClienteListaCadastro implements BaseGUInterface {
             public void actionPerformed(ActionEvent e) {
                 int linhaSelecionada = jTable.getSelectedRow();
                 int id = Integer.parseInt(jTable.getValueAt(linhaSelecionada, 0).toString());
-                
+
                 new ClienteDAO().apagar(id);
                 dtm.removeRow(linhaSelecionada);
 
