@@ -250,7 +250,6 @@ public class ClienteListaCadastro implements BaseGUInterface {
         jFormattedTextFieldCPF.setText("");
         jTextFieldNome.setText("");
         jFormattedTextFieldData.setText("");
-        linhaSelecionada = -1;
         jTextFieldID.requestFocus();
     }
 
@@ -284,6 +283,11 @@ public class ClienteListaCadastro implements BaseGUInterface {
         jButtonExcluir.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                int linhaSelecionada = jTable.getSelectedRow();
+                int id = Integer.parseInt(jTable.getValueAt(linhaSelecionada, 0).toString());
+                
+                new ClienteDAO().apagar(id);
+                dtm.removeRow(linhaSelecionada);
 
             }
         });

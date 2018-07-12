@@ -49,7 +49,20 @@ public class ClienteDAO {
         return false;
     }
 
-    public boolean apagar(ClienteBean cliente) {
+    public boolean apagar(int id) {
+        String sql = "DELETE FROM clientes WHERE id = ?";
+        Connection conexao = ConexaoFactory.obterConexao();
+        if(conexao != null){
+            try{
+                PreparedStatement ps = conexao.prepareStatement(sql);
+                ps.setInt(1,id);
+                return ps.executeUpdate() == 1;
+            }catch (SQLException e ){
+                e.printStackTrace();
+            }finally{
+                ConexaoFactory.fecharConexao();
+            }
+        }
         return false;
     }
 
@@ -77,6 +90,8 @@ public class ClienteDAO {
             } catch (SQLException e) {
                 e.printStackTrace();
 
+            }finally{
+                ConexaoFactory.fecharConexao();
             }
         }
 
