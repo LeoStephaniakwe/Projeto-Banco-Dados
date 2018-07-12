@@ -270,6 +270,9 @@ public class ClienteListaCadastro implements BaseGUInterface {
                     return;
                 }
                 linhaSelecionada = jTable.getSelectedRow();
+                int id = Integer.parseInt(jTable.getValueAt(linhaSelecionada,0).toString());
+                ClienteBean cliente = new ClienteDAO().obterClientePeloId(id);
+                jTextFieldNome.setText(cleinte.getNome());
 
             }
         });
