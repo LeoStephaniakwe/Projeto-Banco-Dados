@@ -82,6 +82,7 @@ public class ClienteDAO {
                     cliente.setData(resultSet.getString("data_nascimento"));
                     cliente.setCpf(resultSet.getString("cpf"));
                     cliente.setAtivo(resultSet.getBoolean("ativo"));
+                    return cliente;
                 }
             } catch (SQLException e) {
             } finally {
