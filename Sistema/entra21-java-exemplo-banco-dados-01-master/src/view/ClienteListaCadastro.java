@@ -272,7 +272,10 @@ public class ClienteListaCadastro implements BaseGUInterface {
                 linhaSelecionada = jTable.getSelectedRow();
                 int id = Integer.parseInt(jTable.getValueAt(linhaSelecionada,0).toString());
                 ClienteBean cliente = new ClienteDAO().obterClientePeloId(id);
-                jTextFieldNome.setText(cleinte.getNome());
+                jTextFieldNome.setText(cliente.getNome());
+                jTextFieldID.setText(String.valueOf(cliente.getId()));
+                jFormattedTextFieldCPF.setText(cliente.getCpf());
+                jFormattedTextFieldData.setText(cliente.getDataCompleta());
 
             }
         });

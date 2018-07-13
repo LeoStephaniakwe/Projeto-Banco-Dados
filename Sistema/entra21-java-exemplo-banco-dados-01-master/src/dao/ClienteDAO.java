@@ -67,7 +67,7 @@ public class ClienteDAO {
     }
 
     public ClienteBean obterClientePeloId(int id) {
-        String sql = "SELECT id, nome, data_nascimento, cpf, ativo FROM cliente WHERE id = ?";
+        String sql = "SELECT id, nome, data_nascimento, cpf, ativo FROM clientes WHERE id = ?";
         Connection conexao = ConexaoFactory.obterConexao();
         if (conexao != null) {
             try {
@@ -85,6 +85,7 @@ public class ClienteDAO {
                     return cliente;
                 }
             } catch (SQLException e) {
+                e.printStackTrace();
             } finally {
                 ConexaoFactory.fecharConexao();
             }
