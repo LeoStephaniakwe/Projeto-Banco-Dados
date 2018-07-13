@@ -46,6 +46,21 @@ public class ClienteDAO {
     }
 
     public boolean alterar(ClienteBean cliente) {
+        Connection conexao = ConexaoFactory.obterConexao();
+        String sql = "UPDATE clientes SET nome = ?, data_nascimento=?, cpf=?, ativo = ? WHERE id = ?";
+        try{
+            PreparedStatement ps = conexao.prepareStatement(sql);
+            ps.setString(1, cliente.getNome());
+            ps.setString(2, cliente.getData());
+            ps.setString(3, cliente.getCpf());
+            ps.setBoolean(3, cliente.isAtivo());
+            ps.setInt(5, cliente.getId());
+            return ps.executeUpdate() == 1;
+        }catch (SQLException e){
+            e.printStackTrace();
+        }finally{
+            ConexaoFactory.fecharConexao();
+        }
         return false;
     }
 

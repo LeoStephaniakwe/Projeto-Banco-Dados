@@ -75,12 +75,4 @@ public class ClienteBean {
         this.cpf = cpf;
     }
 
-    public String getDataCompleta() {
-        String[] posicoes = data.split("-");
-        return posicoes[2] + posicoes[1] +  posicoes[0];
-        
-       
-    }
-
- 
 }
